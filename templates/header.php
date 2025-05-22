@@ -11,7 +11,7 @@
             <?php if ($_SESSION['name'] != '') { ?>
                 <li><a href="#">Mon compte</a></li>
             <?php } else { ?>
-                <li><a href="#">Connexion</a></li>
+                <li><a href="./pages/registerPage.php">Connexion</a></li>
             <?php } ?>
         </ul>
     </nav>
