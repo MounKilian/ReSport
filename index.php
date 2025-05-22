@@ -14,9 +14,9 @@
     <?php include 'templates/header.php'; ?>
 
     <section class="hero">
-        <h2>Revend tes équipements sportifs facilement</h2>
+        <h2>Catégorie</h2>
         <p>Achète ou vends des articles de sport d'occasion en toute confiance.</p>
-        <a href="#" class="cta-button">Découvrir les produits</a>
+        <a href="#" class="cta-button">Catégories</a>
     </section>
 
     <section class="featured-products">
