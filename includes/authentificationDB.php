@@ -49,4 +49,24 @@
         return true;
     }
 
+    function getIDOfUser($username) {
+        $mysqlClient = new PDO(
+            'mysql:host=localhost;dbname=resport;charset=utf8',
+            'root',
+            ''
+        );
+
+        $stmt = $mysqlClient->prepare(
+            'SELECT id FROM User WHERE username = ?'
+        );
+        $stmt->execute([$username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            return $user['id'];
+        } else {
+            return false;
+        }
+    }
+
 ?>
