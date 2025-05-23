@@ -1,34 +1,45 @@
 <?php
-include 'includes/loginDB.php';
+    session_start();
+    //$_SESSION['name'] = '';
 ?>
 
-
 <!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>JO 2024</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReSport - Accueil</title>
+</head>
+<body>
+    <?php include 'templates/header.php'; ?>
 
-    <body>
-        <main>
-            <section>
-                <h2>Résultats</h2>
-                <table>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Temps</th>
-                    </tr>
-                    <?php $data = getNameAndTime();
-                    foreach ($data as $row) { ?>
-                        <tr>
-                            <td><?php echo $row['nom']; ?></td>
-                            <td><?php echo $row['temps']; ?></td>
-                        </tr>
-                    <?php } ?>
-                </table>
-            </section>
-        </main>
-    </body>
+    <section class="hero">
+        <h2>Catégorie</h2>
+        <p>Achète ou vends des articles de sport d'occasion en toute confiance.</p>
+        <a href="#" class="cta-button">Catégories</a>
+    </section>
+
+    <section class="featured-products">
+        <h2>Derniers articles publiés</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <h3>Ballon de football Adidas</h3>
+                <p>25€</p>
+                <a href="#">Voir</a>
+            </div>
+            <div class="product-card">
+                <h3>Raquette Babolat</h3>
+                <p>45€</p>
+                <a href="#">Voir</a>
+            </div>
+            <div class="product-card">
+                <h3>Gants de boxe Everlast</h3>
+                <p>30€</p>
+                <a href="#">Voir</a>
+            </div>
+        </div>
+    </section>
+
+    <?php include 'templates/footer.php'; ?>
+</body>
+</html>
