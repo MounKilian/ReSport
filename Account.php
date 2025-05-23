@@ -15,11 +15,13 @@ include 'includes/loginDB.php';
     <body>
         <main>
             <section>
-                <h2>Résultats</h2>
                 <table>
                     <tr>
                         <th>username</th>
-                        <th>Temps</th>
+                        <th>password</th>
+                        <th>email</th>
+                        <th>Article</th>
+                        <th>Facture</th>
                     </tr>
                     <?php $data = getNameAndTime();
                     foreach ($data as $row) { ?>
@@ -28,9 +30,17 @@ include 'includes/loginDB.php';
                             <td><?php echo $row['password']; ?></td>
                             <td><?php echo $row['email']; ?></td>
 
+                            <td><?php echo $row['description']; ?></td>
+
+                            <td><?php echo $row['transaction_date']; ?></td>
+
                         </tr>
                     <?php } ?>
                 </table>
+                <a href=""><button>Article en Vente</button></a>
+                
+                <button>Modifier Nom</button>
+                <button>Modifier email</button>
             </section>
         </main>
     </body>
