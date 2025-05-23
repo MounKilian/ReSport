@@ -7,7 +7,7 @@
             ''
         );
 
-        $query = $mysqlClient->query('SELECT * FROM jo.`100`;');
+        $query = $mysqlClient->query('SELECT * FROM jo.`user`;');
         $query->execute();
 
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
