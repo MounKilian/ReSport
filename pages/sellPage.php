@@ -3,12 +3,23 @@
     require_once '../includes/articleDB.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $result = AddArticles( $_POST['name'], $_POST['description'], $_POST['price'], $_POST['image']);
-
-        if ($result == true) {
-            header('Location: ../index.php');
-        } else if ($result == false) {
-            echo "<script>alert('Erreur lors de l\'ajout de l\'article.');</script>";
+        $target_dir = "../images/";
+    
+        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            $imagePath = basename($_FILES["image"]["name"]); 
+    
+            $result = AddArticles($_POST['name'], $_POST['description'], $_POST['price'], $imagePath);
+    
+            if ($result == true) {
+                header('Location: ../index.php');
+                exit;
+            } else {
+                echo "<script>alert('Erreur lors de l\'ajout de l\'article.');</script>";
+            }
+        } else {
+            echo "<script>alert('Erreur lors du téléchargement de l\'image.');</script>";
         }
     }
 ?>
@@ -22,7 +33,7 @@
 </head>
 <body>
     <h1>Ajouter une annonce</h1>
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         <label for="name">Nom de l'article :</label><br>
         <input type="text" id="name" name="name" required><br><br>
 

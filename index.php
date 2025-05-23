@@ -1,6 +1,8 @@
 <?php
     session_start();
     //$_SESSION['name'] = '';
+
+    require_once './includes/articleDB.php';
 ?>
 
 <!DOCTYPE html>
@@ -21,23 +23,18 @@
 
     <section class="featured-products">
         <h2>Derniers articles publiés</h2>
-        <div class="products-grid">
-            <div class="product-card">
-                <h3>Ballon de football Adidas</h3>
-                <p>25€</p>
-                <a href="#">Voir</a>
-            </div>
-            <div class="product-card">
-                <h3>Raquette Babolat</h3>
-                <p>45€</p>
-                <a href="#">Voir</a>
-            </div>
-            <div class="product-card">
-                <h3>Gants de boxe Everlast</h3>
-                <p>30€</p>
-                <a href="#">Voir</a>
-            </div>
-        </div>
+        <div class="product-list">
+            <?php
+                $articles = GetArticles();
+                foreach ($articles as $article) {
+                    echo '<div class="product-item">';
+                    echo '<img src="images/' . $article['image_link'] . '" alt="' . $article['name'] . '">';
+                    echo '<p>Prix: ' . $article['price'] . ' €</p>';
+                    echo '<h3>' . $article['name'] . '</h3>';
+                    echo '<a href="./pages/detailsPage.php?id='. $article['id'] . '" class="cta-button">Voir les détails</a>';
+                    echo '</div>';
+                }
+            ?>
     </section>
 
     <?php include 'templates/footer.php'; ?>
