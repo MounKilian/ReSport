@@ -11,8 +11,7 @@
         $stmt = $mysqlClient->prepare(
             'INSERT INTO Article (name, description, price, publish_date, author_id, image_link) VALUES (?, ?, ?, ?, ? , ?)'
         );
-        //mettre la bonne date
-        $stmt->execute([$name, $description, $price, date('Y-m-d H:i:s'), getIDOfUser($_SESSION['name']), $image]);
+        $stmt->execute([$name, $description, $price, date('Y-m-d'), getIDOfUser($_SESSION['name']), $image]);
 
         $stmt = $mysqlClient->prepare(
             'SELECT * FROM Article WHERE name = ? AND description = ? AND price = ? AND image_link = ?'

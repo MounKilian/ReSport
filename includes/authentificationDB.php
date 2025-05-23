@@ -9,7 +9,7 @@
         $stmt = $mysqlClient->prepare(
             'INSERT INTO User (username, email, password, role) VALUES (?, ?, ?, ?)'
         );
-        $stmt->execute([$username, $email, $password, 'user']);
+        $stmt->execute([$username, $email, $password, 'client']);
         $stmt = $mysqlClient->prepare(
             'SELECT * FROM User WHERE username = ? AND password = ?'
         );
@@ -37,8 +37,6 @@
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            $_SESSION['name'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
             return true;
         } else {
             return false;

@@ -7,6 +7,8 @@
 
         if ($result == true) {
             header('Location: ../index.php');
+        } else if ($result == false) {
+            echo "<script>alert('Erreur lors de l\'ajout de l\'article.');</script>";
         }
     }
 ?>
