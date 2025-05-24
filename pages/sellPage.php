@@ -1,5 +1,9 @@
 <?php
     session_start();
+      if (!isset($_SESSION['name']) || empty($_SESSION['name'])) {
+        header('Location: ./loginPage.php');
+        exit;
+    }
     require_once '../includes/articleDB.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
