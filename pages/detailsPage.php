@@ -1,6 +1,18 @@
 <?php
     session_start();
+    require_once '../includes/cartDB.php';
     require_once '../includes/articleDB.php';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $result = AddToCart($_POST['article_id']);
+
+        if ($result === true) {
+            header('Location: ../index.php');
+            exit;
+        } else {
+            $error = "Nom d'utilisateur ou mot de passe incorrect."; 
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +36,15 @@
                     echo '<p>' . $article['description'] . '</p>';
                     echo '<p>Date: ' . $article['publish_date'] . '</p>';
                     echo '<p>Vendeur: ' . GetUsernameWithAuthorId($article['author_id']) . '</p>';
+        
+                    if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
+                        echo '<form action="" method="POST">';
+                        echo '<input type="hidden" name="article_id" value="' . $article['id'] . '">';
+                        echo '<button type="submit">Ajouter au panier</button>';
+                        echo '</form>';
+                    } else {
+                        echo '<p><a href="./loginPage.php">Connectez-vous</a> pour ajouter cet article au panier.</p>';
+                    }
                     echo '</div>';
                 }
             }

@@ -45,6 +45,22 @@
         return $articles;
     }
 
+    function GetArticleById($id) {
+        $mysqlClient = new PDO(
+            'mysql:host=localhost;dbname=resport;charset=utf8',
+            'root',
+            ''
+        );
+
+        $stmt = $mysqlClient->prepare(
+            'SELECT * FROM Article WHERE id = ?'
+        );
+        $stmt->execute([$id]);
+        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $article;
+    }
+
     function GetUsernameWithAuthorId($author_id) {
         $mysqlClient = new PDO(
             'mysql:host=localhost;dbname=resport;charset=utf8',

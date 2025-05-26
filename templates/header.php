@@ -8,7 +8,7 @@
             <li><a href="#">Accueil</a></li>
             <li><a href="#">Produits</a></li>
             <li><a href="#">Catégories</a></li>
-            <li><a href="#">Panier</a></li>
+            <li><a href="./pages/cartPage.php">Panier</a></li>
             <?php if (isset($_SESSION['name']) && $_SESSION['name'] != '') { ?>
                 <li><a href="#">Mon compte</a></li>
                 <li>
