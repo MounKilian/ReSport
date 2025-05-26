@@ -1,7 +1,7 @@
 <?php
     require_once 'authentificationDB.php';
 
-    function AddArticles($name, $description, $price, $image) {
+    function AddArticles($name, $description, $price, $image, $quantity) {
         $mysqlClient = new PDO(
             'mysql:host=localhost;dbname=resport;charset=utf8',
             'root',
@@ -19,6 +19,11 @@
 
         $stmt->execute([$name, $description, $price, $image]);
         $article = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $mysqlClient->prepare(
+            'INSERT INTO Stock (article_id, quantity) VALUES (?, ?)'
+        );
+        $stmt->execute([$article['id'], $quantity]);
 
         if ($article) {
             return true;

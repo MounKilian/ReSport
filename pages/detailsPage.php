@@ -2,9 +2,15 @@
     session_start();
     require_once '../includes/cartDB.php';
     require_once '../includes/articleDB.php';
+    require_once '../includes/stockDB.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $result = AddToCart($_POST['article_id']);
+        if (quantityValid($_POST['article_id'] , $_POST['quantity']) == false) {
+            echo "<script>alert('Quantité invalide.');</script>";
+            exit;
+        }
+
+        $result = AddToCart($_POST['article_id'], $_POST['quantity']);
 
         if ($result === true) {
             header('Location: ../index.php');
@@ -40,6 +46,7 @@
                     if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
                         echo '<form action="" method="POST">';
                         echo '<input type="hidden" name="article_id" value="' . $article['id'] . '">';
+                        echo '<p>Quantité: <input type="number" name="quantity" value="1" min="1"></p>';
                         echo '<button type="submit">Ajouter au panier</button>';
                         echo '</form>';
                     } else {

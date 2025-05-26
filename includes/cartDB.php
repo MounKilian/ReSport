@@ -1,5 +1,5 @@
 <?php
-    function AddToCart($articleId) {
+    function AddToCart($articleId, $quantity) {
         $mysqlClient = new PDO(
             'mysql:host=localhost;dbname=resport;charset=utf8',
             'root',
@@ -10,20 +10,28 @@
             return false;
         }
 
-        $userId = getIDOfUser($_SESSION['name']);
         $stmt = $mysqlClient->prepare(
-            'INSERT INTO Cart (user_id, article_id) VALUES (?, ?)'
+            'SELECT * FROM Article WHERE id = ?'
         );
+        $stmt->execute([$articleId]);
+        $article = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $success = $stmt->execute([$userId, $articleId]);
-        
-        if ($success) {
-            return true;
-        } else {
-            return false;
+        for ($i = 0; $i < $quantity; $i++) {
+            $userId = getIDOfUser($_SESSION['name']);
+            $stmt = $mysqlClient->prepare(
+                'INSERT INTO Cart (user_id, article_id) VALUES (?, ?)'
+            );
+
+            $success = $stmt->execute([$userId, $articleId]);
+
+            if (!$success) {
+                return false;
+            }
         }
 
         $mysqlClient = null;
+
+        return true;  
     }
 
     function GetCart() {

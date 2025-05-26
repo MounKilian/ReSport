@@ -1,6 +1,7 @@
 <?php
     session_start();
-      if (!isset($_SESSION['name']) || empty($_SESSION['name'])) {
+
+    if (!isset($_SESSION['name']) || empty($_SESSION['name'])) {
         header('Location: ./loginPage.php');
         exit;
     }
@@ -14,7 +15,7 @@
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             $imagePath = basename($_FILES["image"]["name"]); 
     
-            $result = AddArticles($_POST['name'], $_POST['description'], $_POST['price'], $imagePath);
+            $result = AddArticles($_POST['name'], $_POST['description'], $_POST['price'], $imagePath, $_POST['quantity']);
     
             if ($result == true) {
                 header('Location: ../index.php');
@@ -50,6 +51,9 @@
 
         <label for="image">Image :</label>
         <input type="file" id="image" name="image" accept="image/*" required>
+
+        <label for="quantity">Quantité :</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1">
 
         <button type="submit">Ajouter l'annonce</button>
     </form>
