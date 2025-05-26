@@ -4,19 +4,20 @@
     require_once '../includes/articleDB.php';
     require_once '../includes/stockDB.php';
 
+    $error = null; 
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (quantityValid($_POST['article_id'] , $_POST['quantity']) == false) {
-            echo "<script>alert('Quantité invalide.');</script>";
-            exit;
-        }
-
-        $result = AddToCart($_POST['article_id'], $_POST['quantity']);
-
-        if ($result === true) {
-            header('Location: ../index.php');
-            exit;
-        } else {
-            $error = "Nom d'utilisateur ou mot de passe incorrect."; 
+            $error = "Pas assez d'articles."; 
+        } else { 
+            $result = AddToCart($_POST['article_id'], $_POST['quantity']);
+    
+            if ($result === true) {
+                header('Location: ../index.php');
+                exit;
+            } else {
+                $error = "Erreur lors de l'ajout au panier."; 
+            }
         }
     }
 ?>
@@ -31,6 +32,12 @@
 
 <body>
     <section class="featured-products">
+        <h2>Détails de l'article</h2>
+
+        <?php if ($error): ?>
+            <p style="color:red;"><?= $error ?></p>
+        <?php endif; ?>
+
         <?php
             $articles = GetArticles();
             foreach ($articles as $article) {
@@ -47,6 +54,9 @@
                         echo '<form action="" method="POST">';
                         echo '<input type="hidden" name="article_id" value="' . $article['id'] . '">';
                         echo '<p>Quantité: <input type="number" name="quantity" value="1" min="1"></p>';
+
+                        echo '<p>Stock disponible: ' . GetStock($article['id']) . '</p>';
+
                         echo '<button type="submit">Ajouter au panier</button>';
                         echo '</form>';
                     } else {
