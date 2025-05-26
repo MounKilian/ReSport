@@ -354,6 +354,14 @@ footer {
   }
 }
 
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(20px);

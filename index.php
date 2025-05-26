@@ -22,8 +22,6 @@
 <body>
     <?php include 'templates/header.php'; ?>
 
-
-
     <section class="hero">
         <h2>Catégorie</h2>
         <p>Achète ou vends des articles de sport d'occasion en toute confiance.</p>
@@ -32,18 +30,19 @@
 
     <section class="featured-products">
         <h2>Derniers articles publiés</h2>
-        <div class="product-list">
+        <div class="products-grid">
             <?php
                 $articles = GetArticles();
                 foreach ($articles as $article) {
-                    echo '<div class="product-item">';
+                    echo '<div class="product-card">';
                     echo '<img src="images/' . $article['image_link'] . '" alt="' . $article['name'] . '">';
-                    echo '<p>Prix: ' . $article['price'] . ' €</p>';
+                    echo '<p>' . $article['price'] . ' €</p>';
                     echo '<h3>' . $article['name'] . '</h3>';
-                    echo '<a href="./pages/detailsPage.php?id='. $article['id'] . '" class="cta-button">Voir les détails</a>';
+                    echo '<a href="./pages/detailsPage.php?id=' . $article['id'] . '" class="cta-button">Voir les détails</a>';
                     echo '</div>';
                 }
             ?>
+        </div>
     </section>
 
     <?php include 'templates/footer.php'; ?>

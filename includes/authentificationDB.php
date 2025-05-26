@@ -3,7 +3,7 @@ function Register($username, $email, $password) {
     $mysqlClient = new PDO(
         'mysql:host=localhost;dbname=resport;charset=utf8',
         'root',
-        'root'
+        ''
     );
 
     $stmt = $mysqlClient->prepare('SELECT * FROM User WHERE username = ? OR email = ?');
@@ -29,7 +29,7 @@ function Login($username, $password) {
     $mysqlClient = new PDO(
         'mysql:host=localhost;dbname=resport;charset=utf8',
         'root',
-        'root'
+        ''
     );
 
     $stmt = $mysqlClient->prepare('SELECT * FROM User WHERE username = ?');
@@ -46,7 +46,7 @@ function getIDOfUser($username) {
     $mysqlClient = new PDO(
         'mysql:host=localhost;dbname=resport;charset=utf8',
         'root',
-        'root'
+        ''
     );
 
     $stmt = $mysqlClient->prepare(
