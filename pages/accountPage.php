@@ -57,8 +57,8 @@ $invoices = $data['invoices'];
                     'currentUsername' => $currentUsername
                 ]);
 
-                echo "Email et mot de passe mis à jour avec succès !";
-
+                header("Location: accountPage.php");
+                exit();
             } catch (PDOException $e) {
                 echo "Erreur : " . $e->getMessage();
             }
