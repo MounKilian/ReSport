@@ -1,5 +1,11 @@
 <?php
     session_start();
+    if (isset($_GET['logout'])) {
+        session_unset();
+        session_destroy();
+        header('Location: index.php');
+        exit;
+    }
     //$_SESSION['name'] = '';
 
     require_once './includes/articleDB.php';
@@ -11,9 +17,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReSport - Accueil</title>
+    <link rel="stylesheet" href="css/accueil.css">
 </head>
 <body>
     <?php include 'templates/header.php'; ?>
+
+
 
     <section class="hero">
         <h2>Catégorie</h2>

@@ -1,70 +1,64 @@
 <?php
-    function Register($username, $email, $password) {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+function Register($username, $email, $password) {
+    $mysqlClient = new PDO(
+        'mysql:host=localhost;dbname=resport;charset=utf8',
+        'root',
+        'root'
+    );
 
-        $stmt = $mysqlClient->prepare(
-            'INSERT INTO User (username, email, password, role) VALUES (?, ?, ?, ?)'
-        );
-        $stmt->execute([$username, $email, $password, 'client']);
-        $stmt = $mysqlClient->prepare(
-            'SELECT * FROM User WHERE username = ? AND password = ?'
-        );
-        $stmt->execute([$username, $password]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            return true;
-        } else {
-            return false;
-        }
+    $stmt = $mysqlClient->prepare('SELECT * FROM User WHERE username = ? OR email = ?');
+    $stmt->execute([$username, $email]);
+    if ($stmt->fetch()) {
+        return "Nom d'utilisateur ou email déjà utilisé.";
     }
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    function Login($username, $password) {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+    $stmt = $mysqlClient->prepare(
+        'INSERT INTO User (username, email, password, role) VALUES (?, ?, ?, ?)'
+    );
+    $success = $stmt->execute([$username, $email, $hashedPassword, 'client']);
 
-        $stmt = $mysqlClient->prepare(
-            'SELECT * FROM User WHERE username = ? AND password = ?'
-        );
-        $stmt->execute([$username, $password]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            return true;
-        } else {
-            return false;
-        }
-
-        $mysqlClient = null;
-
+    if ($success) {
         return true;
+    } else {
+        return "Erreur lors de l'inscription.";
     }
+}
 
-    function getIDOfUser($username) {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+function Login($username, $password) {
+    $mysqlClient = new PDO(
+        'mysql:host=localhost;dbname=resport;charset=utf8',
+        'root',
+        'root'
+    );
 
-        $stmt = $mysqlClient->prepare(
-            'SELECT id FROM User WHERE username = ?'
-        );
-        $stmt->execute([$username]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $mysqlClient->prepare('SELECT * FROM User WHERE username = ?');
+    $stmt->execute([$username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            return $user['id'];
-        } else {
-            return false;
-        }
+    if ($user && password_verify($password, $user['password'])) {
+        return true;
+    } else {
+        return false;
     }
+}
+function getIDOfUser($username) {
+    $mysqlClient = new PDO(
+        'mysql:host=localhost;dbname=resport;charset=utf8',
+        'root',
+        'root'
+    );
 
+    $stmt = $mysqlClient->prepare(
+        'SELECT id FROM User WHERE username = ?'
+    );
+    $stmt->execute([$username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        return $user['id'];
+    } else {
+        return false;
+    }
+}
 ?>
