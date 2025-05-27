@@ -49,16 +49,15 @@ if ($currentUserId === $requestedId) { ?>
             <h3>Compte</h3>
             <div>Photo :</div><div><?= htmlspecialchars($user['profile_photo']) ?></div>
             <div>Nom d'utilisateur :</div><div><?= htmlspecialchars($user['username']) ?></div>
-            <div>Mot de passe :</div><div><?= htmlspecialchars($user['password']) ?></div>
             <div>Email :</div><div><?= htmlspecialchars($user['email']) ?></div>
             <div>Solde :</div><div><?= htmlspecialchars($user['balance']) ?> €<a href="paymentPage.php"><button>Ajouter de l'argent</button></a></div>
 
             <form method="POST" action="">
                 <label>Nouvel email :</label><br>
-                <input type="email" name="new_email" required><br><br>
+                <input type="email" name="new_email" placeholder="Laissez vide pour ne pas modifier"><br><br>
 
                 <label>Nouveau mot de passe :</label><br>
-                <input type="password" name="new_password" required><br><br>
+                <input type="password" name="new_password" placeholder="Laissez vide pour ne pas modifier"><br><br>
 
                 <button type="submit" name="modifier">Modifier</button>
             </form>
@@ -75,20 +74,23 @@ if ($currentUserId === $requestedId) { ?>
                 try {
                     $pdo = new PDO('mysql:host=localhost;dbname=resport;charset=utf8', 'root', '');
 
+                    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
                     $sql = "UPDATE user SET email = :newEmail, password = :newPassword WHERE username = :currentUsername";
                     $stmt = $pdo->prepare($sql);
 
                     $stmt->execute([
                         'newEmail' => $newEmail,
-                        'newPassword' => $newPassword,
+                        'newPassword' => $hashedPassword,
                         'currentUsername' => $currentUsername
                     ]);
 
-                    header("Location: accountPage.php");
+                    header("Location: accountPage.php?id=" . $user['id']);
                     exit();
                 } catch (PDOException $e) {
                     echo "Erreur : " . $e->getMessage();
                 }
+
             }
             ?>
 
