@@ -1,64 +1,55 @@
 <?php
-function Register($username, $email, $password) {
-    $mysqlClient = new PDO(
-        'mysql:host=localhost;dbname=resport;charset=utf8',
-        'root',
-        ''
-    );
+    require_once 'db.php';
 
-    $stmt = $mysqlClient->prepare('SELECT * FROM User WHERE username = ? OR email = ?');
-    $stmt->execute([$username, $email]);
-    if ($stmt->fetch()) {
-        return "Nom d'utilisateur ou email déjà utilisé.";
+    function Register($username, $email, $password) {
+        $mysqlClient = getPDOConnection();
+
+        $stmt = $mysqlClient->prepare('SELECT * FROM User WHERE username = ? OR email = ?');
+        $stmt->execute([$username, $email]);
+        if ($stmt->fetch()) {
+            return "Nom d'utilisateur ou email déjà utilisé.";
+        }
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $mysqlClient->prepare(
+            'INSERT INTO User (username, email, password, role) VALUES (?, ?, ?, ?)'
+        );
+        $success = $stmt->execute([$username, $email, $hashedPassword, 'client']);
+
+        if ($success) {
+            return true;
+        } else {
+            return "Erreur lors de l'inscription.";
+        }
     }
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $mysqlClient->prepare(
-        'INSERT INTO User (username, email, password, role) VALUES (?, ?, ?, ?)'
-    );
-    $success = $stmt->execute([$username, $email, $hashedPassword, 'client']);
+    function Login($username, $password) {
+        $mysqlClient = getPDOConnection();
 
-    if ($success) {
-        return true;
-    } else {
-        return "Erreur lors de l'inscription.";
+        $stmt = $mysqlClient->prepare('SELECT * FROM User WHERE username = ?');
+        $stmt->execute([$username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['password'])) {
+            return true;
+        } else {
+            return false;
+        }
     }
-}
 
-function Login($username, $password) {
-    $mysqlClient = new PDO(
-        'mysql:host=localhost;dbname=resport;charset=utf8',
-        'root',
-        ''
-    );
+    function getIDOfUser($username) {
+        $mysqlClient = getPDOConnection();
 
-    $stmt = $mysqlClient->prepare('SELECT * FROM User WHERE username = ?');
-    $stmt->execute([$username]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $mysqlClient->prepare(
+            'SELECT id FROM User WHERE username = ?'
+        );
+        $stmt->execute([$username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && password_verify($password, $user['password'])) {
-        return true;
-    } else {
-        return false;
+        if ($user) {
+            return $user['id'];
+        } else {
+            return false;
+        }
     }
-}
-function getIDOfUser($username) {
-    $mysqlClient = new PDO(
-        'mysql:host=localhost;dbname=resport;charset=utf8',
-        'root',
-        ''
-    );
-
-    $stmt = $mysqlClient->prepare(
-        'SELECT id FROM User WHERE username = ?'
-    );
-    $stmt->execute([$username]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user) {
-        return $user['id'];
-    } else {
-        return false;
-    }
-}
 ?>

@@ -1,11 +1,8 @@
 <?php
+    require_once 'db.php';
     
     function GetStock($articleId) {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+        $mysqlClient = getPDOConnection();
 
         $stmt = $mysqlClient->prepare('SELECT * FROM Stock WHERE article_id = ?');
         $stmt->execute([$articleId]);

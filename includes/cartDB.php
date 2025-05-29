@@ -1,10 +1,8 @@
 <?php
+    require_once 'db.php';
+    
     function AddToCart($articleId, $quantity) {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+        $mysqlClient = getPDOConnection();
 
         if (!isset($_SESSION['name'])) {
             return false;
@@ -35,11 +33,7 @@
     }
 
     function GetCart() {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+        $mysqlClient = getPDOConnection();
 
         if (!isset($_SESSION['name'])) {
             return [];

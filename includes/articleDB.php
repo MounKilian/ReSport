@@ -1,12 +1,9 @@
 <?php
     require_once 'authentificationDB.php';
+    require_once 'db.php';
 
     function AddArticles($name, $description, $price, $image, $quantity) {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+        $mysqlClient = getPDOConnection();
 
         $stmt = $mysqlClient->prepare(
             'INSERT INTO Article (name, description, price, publish_date, author_id, image_link) VALUES (?, ?, ?, ?, ? , ?)'
@@ -35,11 +32,7 @@
     }
 
     function GetArticles() {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+        $mysqlClient = getPDOConnection();
 
         $stmt = $mysqlClient->prepare(
             'SELECT * FROM Article ORDER BY publish_date DESC'
@@ -51,11 +44,7 @@
     }
 
     function GetArticleById($id) {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+        $mysqlClient = getPDOConnection();
 
         $stmt = $mysqlClient->prepare(
             'SELECT * FROM Article WHERE id = ?'
@@ -67,11 +56,7 @@
     }
 
     function GetUsernameWithAuthorId($author_id) {
-        $mysqlClient = new PDO(
-            'mysql:host=localhost;dbname=resport;charset=utf8',
-            'root',
-            ''
-        );
+        $mysqlClient = getPDOConnection();
 
         $stmt = $mysqlClient->prepare(
             'SELECT username FROM User WHERE id = ?'
