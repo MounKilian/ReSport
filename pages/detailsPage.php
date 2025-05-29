@@ -3,6 +3,14 @@
     require_once '../includes/cartDB.php';
     require_once '../includes/articleDB.php';
     require_once '../includes/stockDB.php';
+    require_once '../includes/loginDB.php';
+
+    $data = getAll();
+
+    $currentUserId = null;
+    if ($data && isset($data['user']['id'])) {
+        $currentUserId = $data['user']['id'];
+    }
 
     $error = null; 
 
@@ -48,7 +56,15 @@
                     echo '<h3>' . $article['name'] . '</h3>';
                     echo '<p>' . $article['description'] . '</p>';
                     echo '<p>Date: ' . $article['publish_date'] . '</p>';
-                    echo '<p>Vendeur: ' . GetUsernameWithAuthorId($article['author_id']) . '</p>';
+
+                    $pseudoVendeur = GetUsernameWithAuthorId($article['author_id']);
+
+                    if ($currentUserId == $article['author_id']) {
+                        echo '<p>Vendeur: <a href="accountPage.php?id=' . $article['author_id'] . '">' . $pseudoVendeur . ' (vous)</a></p>';
+                    } else {
+                        echo '<p>Vendeur: <a href="accountPage.php?id=' . $article['author_id'] . '">' . $pseudoVendeur . '</a></p>';
+                    }
+                    // echo '<p>Vendeur: <a href="accountPage.php">' . GetUsernameWithAuthorId($article['author_id']) . '</a></p>';
         
                     if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
                         echo '<form action="" method="POST">';

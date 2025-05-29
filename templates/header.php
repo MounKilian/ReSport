@@ -1,3 +1,14 @@
+<?php
+include __DIR__ . '/../includes/loginDB.php';
+
+$user = getName();
+
+if ($user) {
+    $userId = $user['id'];
+} else {
+    $userId = null;
+}
+?>
 <header>
     <div class="logo">
         <h1>ReSport</h1>
@@ -10,7 +21,7 @@
             <li><a href="#">Catégories</a></li>
             <li><a href="./pages/cartPage.php">Panier</a></li>
             <?php if (isset($_SESSION['name']) && $_SESSION['name'] != '') { ?>
-                <li><a href="./pages/accountPage.php">Mon compte</a></li>
+            <li><a href="./pages/accountPage.php?id=<?= htmlspecialchars($userId) ?>">Mon compte</a></li>
                 <li>
                     <form action="/ReSport/index.php" method="get" style="display:inline;">
                         <button type="submit" name="logout" value="1" class="cta-button" style="padding: 0.5rem 1rem; font-size: 1rem;">Déconnexion</button>
