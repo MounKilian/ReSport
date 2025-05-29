@@ -1,14 +1,15 @@
 <?php
-include __DIR__ . '/../includes/loginDB.php';
+    include __DIR__ . '/../includes/loginDB.php';
 
-$user = getName();
+    $user = getName();
 
-if ($user) {
-    $userId = $user['id'];
-} else {
-    $userId = null;
-}
+    if ($user) {
+        $userId = $user['id'];
+    } else {
+        $userId = null;
+    }
 ?>
+
 <header>
     <div class="logo">
         <h1>ReSport</h1>

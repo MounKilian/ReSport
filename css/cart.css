@@ -1,0 +1,49 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* Section du panier */
+.featured-products {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+/* Image de l'article */
+.product-item img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Infos article */
+.product-item h3 {
+    font-size: 1.3rem;
+    margin: 0 0 0.4rem;
+    color: #222;
+}
+
+.product-item p {
+    margin: 0.2rem 0;
+    font-size: 1rem;
+    color: #555;
+}

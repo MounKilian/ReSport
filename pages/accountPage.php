@@ -1,56 +1,62 @@
 <?php
-session_start();
+    session_start();
 
-include '../includes/loginDB.php';
-$data = getAll();
+    include '../includes/loginDB.php';
+    $data = getAll();
 
-$currentUserId = null;
-if ($data && isset($data['user']['id'])) {
-    $currentUserId = $data['user']['id'];
-}
+    $currentUserId = null;
+    if ($data && isset($data['user']['id'])) {
+        $currentUserId = $data['user']['id'];
+    }
 
-if (!isset($_GET['id'])) {
-    echo "Aucun ID fourni.";
-    exit;
-}
+    if (!isset($_GET['id'])) {
+        echo "Aucun ID fourni.";
+        exit;
+    }
 
-$requestedId = intval($_GET['id']); // depuis l'URL
+    $requestedId = intval($_GET['id']); 
 
-$dataOther = getUserById($requestedId); // données de la personne cliquée
-if (!$dataOther) {
-    echo "Utilisateur introuvable.";
-    exit;
-}
+    $dataOther = getUserById($requestedId);
+    if (!$dataOther) {
+        echo "Utilisateur introuvable.";
+        exit;
+    }
 
-$user = $data['user'];
-$articles = $data['articles'];
-$invoices = $data['invoices'];
+    $user = $data['user'];
+    $articles = $data['articles'];
+    $invoices = $data['invoices'];
 
-$userOther = $dataOther['user'];
-$articlesOther = $dataOther['articles'];
-
-
+    $userOther = $dataOther['user'];
+    $articlesOther = $dataOther['articles'];
 ?>
-    <!DOCTYPE html>
-    <html lang="fr">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>ReSport - Compte</title>
-        </head>
 
-<?php
-if ($currentUserId === $requestedId) { ?>
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/account.css">
+        <title>ReSport - Compte</title>
+    </head>
 
-
-
-        <body>
-            
+    <?php if ($currentUserId === $requestedId) { ?>
+        <body>    
             <h3>Compte</h3>
-            <div>Photo :</div><div><?= htmlspecialchars($user['profile_photo']) ?></div>
-            <div>Nom d'utilisateur :</div><div><?= htmlspecialchars($user['username']) ?></div>
-            <div>Email :</div><div><?= htmlspecialchars($user['email']) ?></div>
-            <div>Solde :</div><div><?= htmlspecialchars($user['balance']) ?> €<a href="paymentPage.php"><button>Ajouter de l'argent</button></a></div>
+            <img src="../images/<?= htmlspecialchars($user['profile_photo']) ?>" alt="Photo de profil" ><br>';
+            
+            <div class="profile-info">
+                <div>Nom d'utilisateur :</div>
+                <div><?= htmlspecialchars($user['username']) ?></div>
+
+                <div>Email :</div>
+                <div><?= htmlspecialchars($user['email']) ?></div>
+
+                <div>Solde :</div>
+                <div>
+                    <?= htmlspecialchars($user['balance']) ?> €
+                    <a href="paymentPage.php" class="balance-button">Ajouter de l'argent</a>
+                </div>
+            </div>
 
             <form method="POST" action="">
                 <label>Nouvel email :</label><br>
@@ -64,7 +70,6 @@ if ($currentUserId === $requestedId) { ?>
 
             
             <?php
-            session_start();
 
             if (isset($_POST['modifier']) && isset($_SESSION['name'])) {
                 $newEmail = $_POST['new_email'];
@@ -94,17 +99,20 @@ if ($currentUserId === $requestedId) { ?>
             }
             ?>
 
-
-            <section>
-                <h3>Articles :</h3>
-                <?php foreach ($articles as $article): ?>
-                    <div>Nom :</div><div><?= htmlspecialchars($article['name']) ?></div>
-                    <div></div><div><?= htmlspecialchars($article['image_link']) ?></div>
-                    <div>Description :</div><div><?= htmlspecialchars($article['description']) ?></div>
-                    <div>Prix :</div><div><?= htmlspecialchars($article['price']) ?> €</div>
-                    <div>Date de publication :</div><div><?= htmlspecialchars($article['publish_date']) ?></div>
-                    <hr>
-                <?php endforeach; ?>
+            <section class="featured-products">
+                <h3>Mes articles</h3>
+                <div class="products-grid">
+                    <?php
+                        foreach ($articles as $article) {
+                            echo '<div class="product-card">';
+                            echo '<img src="../images/' . $article['image_link'] . '" alt="' . $article['name'] . '">';
+                            echo '<p>' . $article['price'] . ' €</p>';
+                            echo '<h3>' . $article['name'] . '</h3>';
+                            echo '<a href="./detailsPage.php?id=' . $article['id'] . '" class="cta-button">Voir les détails</a>';
+                            echo '</div>';
+                        }
+                    ?>
+                </div>
             </section>
 
             <section>
@@ -123,35 +131,24 @@ if ($currentUserId === $requestedId) { ?>
     </html>
 
 
-<?php 
-} else {
-    ?>
-    <body>
-            
-            <h3><?= htmlspecialchars($userOther['username']) ?></h3>
-            <div>Photo :</div><div><?= htmlspecialchars($userOther['profile_photo']) ?></div>
-            <div>Email :</div><div><?= htmlspecialchars($userOther['email']) ?></div>
+<?php } else { ?>
+    <body>   
+        <h3><?= htmlspecialchars($userOther['username']) ?></h3>
+        <div>Photo :</div><div><?= htmlspecialchars($userOther['profile_photo']) ?></div>
+        <div>Email :</div><div><?= htmlspecialchars($userOther['email']) ?></div>
 
 
-            <section>
-                <h3>Articles :</h3>
-                <?php foreach ($articlesOther as $articleOther): ?>
-                    <div>Nom :</div><div><?= htmlspecialchars($articleOther['name']) ?></div>
-                    <div></div><div><?= htmlspecialchars($articleOther['image_link']) ?></div>
-                    <div>Description :</div><div><?= htmlspecialchars($articleOther['description']) ?></div>
-                    <div>Prix :</div><div><?= htmlspecialchars($articleOther['price']) ?> €</div>
-                    <div>Date de publication :</div><div><?= htmlspecialchars($articleOther['publish_date']) ?></div>
-                    <hr>
-                <?php endforeach; ?>
-            </section>
+        <section>
+            <h3>Articles :</h3>
+            <?php foreach ($articlesOther as $articleOther): ?>
+                <div>Nom :</div><div><?= htmlspecialchars($articleOther['name']) ?></div>
+                <div></div><div><?= htmlspecialchars($articleOther['image_link']) ?></div>
+                <div>Description :</div><div><?= htmlspecialchars($articleOther['description']) ?></div>
+                <div>Prix :</div><div><?= htmlspecialchars($articleOther['price']) ?> €</div>
+                <div>Date de publication :</div><div><?= htmlspecialchars($articleOther['publish_date']) ?></div>
+                <hr>
+            <?php endforeach; ?>
+        </section>
     </body>
-
-
-<?php 
-}
-
-
-
-
-?>
+<?php } ?>
 

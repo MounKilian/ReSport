@@ -12,9 +12,9 @@
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt = $mysqlClient->prepare(
-            'INSERT INTO User (username, email, password, role) VALUES (?, ?, ?, ?)'
+            'INSERT INTO User (username, email, password, profile_photo, role) VALUES (?, ?, ?, ?, ?)'
         );
-        $success = $stmt->execute([$username, $email, $hashedPassword, 'client']);
+        $success = $stmt->execute([$username, $email, $hashedPassword, 'A4 - 6.png', 'client']);
 
         if ($success) {
             return true;

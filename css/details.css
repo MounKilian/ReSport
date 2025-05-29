@@ -1,0 +1,101 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* Section principale */
+.featured-products {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.featured-products h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #333;
+}
+
+/* Message d'erreur */
+.featured-products p[style*="color:red"] {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/* Détails du produit */
+.product-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    text-align: center;
+}
+
+.product-item img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+/* Titres et texte */
+.product-item h3 {
+    font-size: 1.6rem;
+    margin: 0.5rem 0;
+    color: #222;
+}
+
+.product-item p {
+    font-size: 1rem;
+    color: #444;
+}
+
+.product-item a {
+    color: #00bfa5;
+    text-decoration: none;
+}
+
+.product-item a:hover {
+    text-decoration: underline;
+}
+
+/* Formulaire panier */
+.product-item form {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.product-item input[type="number"] {
+    padding: 0.4rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 80px;
+    text-align: center;
+}
+
+/* Bouton d'ajout au panier */
+.product-item button {
+    background-color: #00bfa5;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.6rem 1.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.product-item button:hover {
+    background-color: #019d8e;
+}
