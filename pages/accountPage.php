@@ -36,11 +36,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../css/account.css">
+        <link rel="stylesheet" href="../css/header.css">
         <title>ReSport - Compte</title>
     </head>
 
     <?php if ($currentUserId === $requestedId) { ?>
         <body>    
+            <?php include '../templates/header.php'; ?>
+
+            <div class="body">
             <h3>Compte</h3>
             <img src="../images/<?= htmlspecialchars($user['profile_photo']) ?>" alt="Photo de profil" ><br>';
             
@@ -126,6 +130,7 @@
                     <hr>
                 <?php endforeach; ?>
             </section>
+            </div>
         </body>
 
     </html>
@@ -133,22 +138,35 @@
 
 <?php } else { ?>
     <body>   
-        <h3><?= htmlspecialchars($userOther['username']) ?></h3>
-        <div>Photo :</div><div><?= htmlspecialchars($userOther['profile_photo']) ?></div>
-        <div>Email :</div><div><?= htmlspecialchars($userOther['email']) ?></div>
+        <?php include '../templates/header.php'; ?>
+        <div class="body">
+        <h3>Compte</h3>
+        <img src="../images/<?= htmlspecialchars($user['profile_photo']) ?>" alt="Photo de profil" ><br>';
+       
+        <div class="profile-info">
+                <div>Nom d'utilisateur :</div>
+                <div><?= htmlspecialchars($userOther['username']) ?></div>
 
+                <div>Email :</div>
+                <div><?= htmlspecialchars($userOther['email']) ?></div>
+        </div>
 
-        <section>
-            <h3>Articles :</h3>
-            <?php foreach ($articlesOther as $articleOther): ?>
-                <div>Nom :</div><div><?= htmlspecialchars($articleOther['name']) ?></div>
-                <div></div><div><?= htmlspecialchars($articleOther['image_link']) ?></div>
-                <div>Description :</div><div><?= htmlspecialchars($articleOther['description']) ?></div>
-                <div>Prix :</div><div><?= htmlspecialchars($articleOther['price']) ?> €</div>
-                <div>Date de publication :</div><div><?= htmlspecialchars($articleOther['publish_date']) ?></div>
-                <hr>
-            <?php endforeach; ?>
+        <section class="featured-products">
+            <h3>Les Articles de <?= htmlspecialchars($userOther['username']) ?></h3>
+            <div class="products-grid">
+                <?php
+                    foreach ($articlesOther as $articleOther) {
+                        echo '<div class="product-card">';
+                        echo '<img src="../images/' . $articleOther['image_link'] . '" alt="' . $articleOther['name'] . '">';
+                        echo '<p>' . $articleOther['price'] . ' €</p>';
+                        echo '<h3>' . $articleOther['name'] . '</h3>';
+                        echo '<a href="./detailsPage.php?id=' . $articleOther['id'] . '" class="cta-button">Voir les détails</a>';
+                        echo '</div>';
+                    }
+                ?>
+            </div>
         </section>
+        </div>
     </body>
 <?php } ?>
 

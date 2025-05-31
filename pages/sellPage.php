@@ -35,27 +35,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter une annonce</title>
-    <link rel="stylesheet" href="../css/annonce.css"> 
+    <link rel="stylesheet" href="../css/annonce.css">
+    <link rel="stylesheet" href="../css/header.css"> 
 </head>
 <body>
-    <h1>Ajouter une annonce</h1>
-    <form action="" method="POST" enctype="multipart/form-data">
-        <label for="name">Nom de l'article :</label>
-        <input type="text" id="name" name="name" required>
+    <?php include '../templates/header.php'; ?>
 
-        <label for="description">Description :</label>
-        <textarea id="description" name="description" rows="4" required></textarea>
+    <div class="body">
+        <h1>Ajouter une annonce</h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <label for="name">Nom de l'article :</label>
+            <input type="text" id="name" name="name" required>
 
-        <label for="price">Prix :</label>
-        <input type="number" id="price" name="price" step="0.01" required>
+            <label for="description">Description :</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
 
-        <label for="image">Image :</label>
-        <input type="file" id="image" name="image" accept="image/*" required>
+            <label for="price">Prix :</label>
+            <input type="number" id="price" name="price" step="0.01" required>
 
-        <label for="quantity">Quantité :</label>
-        <input type="number" id="quantity" name="quantity" value="1" min="1">
+            <label for="image">Image :</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
 
-        <button type="submit">Ajouter l'annonce</button>
-    </form>
+            <label for="quantity">Quantité :</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="1">
+
+            <button type="submit">Ajouter l'annonce</button>
+        </form>
+    </div>
 </body>
 </html>

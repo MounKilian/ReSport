@@ -36,10 +36,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/details.css">
+    <link rel="stylesheet" href="../css/header.css">
     <title>ReSport - Detail Article</title>
 </head>
 
 <body>
+    <?php include '../templates/header.php'; ?>
+
     <section class="featured-products">
         <h2>Détails de l'article</h2>
 

@@ -1,4 +1,4 @@
-/* Reset */
+/* ===== Reset et base ===== */
 * {
     margin: 0;
     padding: 0;
@@ -6,21 +6,23 @@
 }
 
 body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #f6f6f6;
-    color: #333;
-    padding: 2rem 1rem;
+    color: #2d2d2d;
+    line-height: 1.6;
 }
 
-/* Titres */
-h3 {
+/* ===== Titres ===== */
+h3, h2 {
     color: #00bfa5;
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
     text-align: center;
 }
 
-/* Profil utilisateur */
+/* ===== Photo de profil ===== */
 img {
     width: 120px;
     height: 120px;
@@ -31,36 +33,71 @@ img {
     border: 3px solid #00bfa5;
 }
 
-/* Informations utilisateur */
-div {
-    margin-bottom: 0.5rem;
-}
-
-/* Section profil */
-form, section {
+/* ===== Conteneurs généraux ===== */
+.body form, section {
     background-color: #fff;
-    padding: 1.5rem;
-    margin: 1rem auto;
+    padding: 2rem;
+    margin: 2rem auto;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     max-width: 700px;
 }
 
-/* Formulaire de modification */
+/* ===== Grille des infos profil ===== */
+.profile-info {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0.8rem 1rem;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 2rem auto;
+    max-width: 700px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-size: 1rem;
+}
+
+.profile-info div:nth-child(odd) {
+    font-weight: 600;
+    color: #666;
+}
+
+.profile-info div:nth-child(even) {
+    color: #2d2d2d;
+}
+
+/* ===== Bouton dans profil (solde) ===== */
+.profile-info .balance-button {
+    display: inline-block;
+    background-color: #00bfa5;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin-left: 1rem;
+}
+
+.profile-info .balance-button:hover {
+    background-color: #019d8e;
+}
+
+/* ===== Formulaire modification profil ===== */
 form label {
     display: block;
     font-weight: 500;
-    margin-top: 1rem;
-    margin-bottom: 0.3rem;
+    margin: 1rem 0 0.3rem;
 }
 
 form input {
     width: 100%;
-    padding: 0.6rem 0.8rem;
+    padding: 0.7rem;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 1rem;
-    transition: border 0.3s;
+    transition: border-color 0.3s ease;
 }
 
 form input:focus {
@@ -70,97 +107,23 @@ form input:focus {
 }
 
 form button {
-    background-color: #00bfa5;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 0.7rem 1.5rem;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 1.5rem;
-    display: block;
     width: 100%;
-    transition: background-color 0.3s;
+    padding: 0.9rem;
+    background-color: #00bfa5;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 form button:hover {
     background-color: #019d8e;
 }
 
-/* Bouton solde */
-a button {
-    margin-left: 1rem;
-    background-color: #00bfa5;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-a button:hover {
-    background-color: #019d8e;
-}
-
-/* Affichage des articles / factures */
-section div {
-    margin-bottom: 0.4rem;
-    line-height: 1.4;
-}
-
-section hr {
-    margin: 1rem 0;
-    border: none;
-    border-top: 1px solid #e0e0e0;
-}
-
-/* Conteneur général des infos */
-.profile-info {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 0.6rem 1rem;
-    background-color: #fff;
-    padding: 1.5rem;
-    margin: 1rem auto;
-    border-radius: 16px;
-    max-width: 700px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    font-size: 1rem;
-}
-
-/* Label (gauche) */
-.profile-info div:nth-child(odd) {
-    font-weight: 600;
-    color: #555;
-}
-
-/* Valeur (droite) */
-.profile-info div:nth-child(even) {
-    color: #333;
-}
-
-/* Bouton "Ajouter de l'argent" dans ligne solde */
-.profile-info .balance-button {
-    display: inline-block;
-    margin-left: 1rem;
-    background-color: #00bfa5;
-    color: white;
-    padding: 0.4rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.profile-info .balance-button:hover {
-    background-color: #019d8e;
-}
-
-/* Section des produits en vedette */
+/* ===== Section Produits ===== */
 .featured-products {
     max-width: 1200px;
     margin: 2rem auto;
@@ -169,19 +132,19 @@ section hr {
 
 .featured-products h2 {
     font-size: 2rem;
-    margin-bottom: 1.5rem;
+    color: #2d2d2d;
     text-align: center;
-    color: #333;
+    margin-bottom: 1.5rem;
 }
 
-/* Grille responsive */
+/* ===== Grille d’articles ===== */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
 }
 
-/* Carte produit */
+/* ===== Carte Produit ===== */
 .product-card {
     background-color: #fff;
     border-radius: 16px;
@@ -197,7 +160,6 @@ section hr {
     transform: translateY(-4px);
 }
 
-/* Image produit */
 .product-card img {
     max-width: 100%;
     height: 200px;
@@ -206,12 +168,11 @@ section hr {
     margin-bottom: 1rem;
 }
 
-/* Texte */
 .product-card h3 {
     font-size: 1.1rem;
     color: #222;
-    margin: 0.5rem 0;
     text-align: center;
+    margin: 0.5rem 0;
 }
 
 .product-card p {
@@ -220,7 +181,7 @@ section hr {
     font-weight: 600;
 }
 
-/* Bouton */
+/* ===== Bouton dans carte produit ===== */
 .product-card .cta-button {
     margin-top: 0.5rem;
     background-color: #00bfa5;
@@ -236,3 +197,4 @@ section hr {
 .product-card .cta-button:hover {
     background-color: #019d8e;
 }
+

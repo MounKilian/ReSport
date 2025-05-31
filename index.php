@@ -6,7 +6,6 @@
         header('Location: index.php');
         exit;
     }
-    //$_SESSION['name'] = '';
 
     require_once './includes/articleDB.php';
 ?>
@@ -18,6 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReSport - Accueil</title>
     <link rel="stylesheet" href="css/accueil.css">
+    <link rel="stylesheet" href="css/header.css">
 </head>
 <body>
     <?php include 'templates/header.php'; ?>

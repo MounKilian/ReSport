@@ -1,6 +1,5 @@
 <?php
-    include __DIR__ . '/../includes/loginDB.php';
-
+    include_once __DIR__ . '/../includes/loginDB.php';
     $user = getName();
 
     if ($user) {
