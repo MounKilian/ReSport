@@ -52,4 +52,19 @@
             return false;
         }
     }
+
+    function RemoveUserBalance($userId, $amount) {
+        $mysqlClient = getPDOConnection();
+
+        $stmt = $mysqlClient->prepare(
+            'UPDATE User SET balance = balance - ? WHERE id = ?'
+        );
+        $stmt->execute([$amount, $userId]);
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 ?>

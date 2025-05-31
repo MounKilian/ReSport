@@ -1,4 +1,7 @@
 <?php
+    require_once 'articleDB.php';
+    require_once 'db.php';
+
     function getAll()
     {
         if (!isset($_SESSION['name'])) {
@@ -8,11 +11,7 @@
         $name = $_SESSION['name'];
 
         try {
-            $mysqlClient = new PDO(
-                'mysql:host=localhost;dbname=resport;charset=utf8',
-                'root',
-                ''
-            );
+            $mysqlClient = getPDOConnection();
             $mysqlClient->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $userStmt = $mysqlClient->prepare('SELECT * FROM `user` WHERE username = :name');
@@ -45,7 +44,7 @@
 
     function getUserById($id) {
         try {
-            $mysqlClient = new PDO('mysql:host=localhost;dbname=resport;charset=utf8', 'root', '');
+            $mysqlClient = getPDOConnection();
             $mysqlClient->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $userStmt = $mysqlClient->prepare('SELECT * FROM `user` WHERE id = :id');
@@ -75,7 +74,7 @@
 
     function getName() {
 
-        $pdo = new PDO('mysql:host=localhost;dbname=resport;charset=utf8', 'root', '');
+        $pdo = getPDOConnection();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $userId = null;

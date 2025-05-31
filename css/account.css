@@ -198,3 +198,42 @@ form button:hover {
     background-color: #019d8e;
 }
 
+
+/* ===== Section Factures ===== */
+.invoice-section {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.invoice-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.invoice-card {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
+}
+
+.invoice-card:hover {
+    transform: translateY(-4px);
+}
+
+.invoice-card div {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+.invoice-card div span {
+    font-weight: 600;
+    color: #666;
+    margin-right: 0.5rem;
+}

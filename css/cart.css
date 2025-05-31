@@ -10,17 +10,23 @@ body {
 .featured-products {
     max-width: 1000px;
     margin: 2rem auto;
-    padding: 1rem;
+    padding: 2rem;
     background-color: white;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
 }
 
 .product-item {
     display: flex;
     align-items: center;
     gap: 2rem;
-    padding: 1.2rem 0;
+    padding: 1.5rem 0;
     border-bottom: 1px solid #eee;
 }
 
@@ -28,7 +34,6 @@ body {
     border-bottom: none;
 }
 
-/* Image de l'article */
 .product-item img {
     width: 140px;
     height: 140px;
@@ -36,15 +41,98 @@ body {
     border-radius: 12px;
 }
 
-/* Infos article */
-.product-item h3 {
+.product-info {
+    flex: 1;
+}
+
+.product-info h3 {
     font-size: 1.3rem;
-    margin: 0 0 0.4rem;
+    margin: 0.4rem 0;
     color: #222;
 }
 
-.product-item p {
-    margin: 0.2rem 0;
+.product-info p {
+    margin: 0.3rem 0;
     font-size: 1rem;
     color: #555;
+}
+
+/* Quantité */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.quantity-controls label {
+    font-size: 1rem;
+    font-weight: bold;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+/* Boutons */
+.update-button {
+    background-color: #ddd;
+    color: #333;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.update-button:hover {
+    background-color: #bbb;
+}
+
+.remove-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 0.5rem;
+}
+
+.remove-button:hover {
+    background-color: #e60000;
+}
+
+/* Total et solde */
+.featured-products .summary {
+    text-align: right;
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+/* Bouton de commande */
+.checkout-button {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 2rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.checkout-button:hover {
+    background-color: #218838;
+}
+
+.checkout-button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
 }

@@ -140,4 +140,20 @@
 
         return $success;
     }
+
+    function RemoveCart() {
+        $mysqlClient = getPDOConnection();
+
+        if (!isset($_SESSION['name'])) {
+            return false;
+        }
+
+        $userId = getIDOfUser($_SESSION['name']);
+        $stmt = $mysqlClient->prepare(
+            'DELETE FROM Cart WHERE user_id = ?'
+        );
+        $success = $stmt->execute([$userId]);
+
+        return $success;
+    }
 ?>

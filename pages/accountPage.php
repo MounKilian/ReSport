@@ -80,25 +80,22 @@
                 $newPassword = $_POST['new_password'];
                 $currentUsername = $_SESSION['name'];
 
-                try {
-                    $pdo = new PDO('mysql:host=localhost;dbname=resport;charset=utf8', 'root', '');
+                
+                $pdo = getPDOConnection();
 
-                    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+                $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-                    $sql = "UPDATE user SET email = :newEmail, password = :newPassword WHERE username = :currentUsername";
-                    $stmt = $pdo->prepare($sql);
+                $sql = "UPDATE user SET email = :newEmail, password = :newPassword WHERE username = :currentUsername";
+                $stmt = $pdo->prepare($sql);
 
-                    $stmt->execute([
-                        'newEmail' => $newEmail,
-                        'newPassword' => $hashedPassword,
-                        'currentUsername' => $currentUsername
-                    ]);
+                $stmt->execute([
+                    'newEmail' => $newEmail,
+                    'newPassword' => $hashedPassword,
+                    'currentUsername' => $currentUsername
+                ]);
 
-                    header("Location: accountPage.php?id=" . $user['id']);
-                    exit();
-                } catch (PDOException $e) {
-                    echo "Erreur : " . $e->getMessage();
-                }
+                header("Location: accountPage.php?id=" . $user['id']);
+                exit();
 
             }
             ?>
@@ -119,17 +116,21 @@
                 </div>
             </section>
 
-            <section class="featured-products">
+            <section class="invoice-section">
                 <h3>Mes factures</h3>
-                <?php foreach ($invoices as $invoice): ?>
-                    <div>Date d'achat :</div><div><?= htmlspecialchars($invoice['transaction_date']) ?></div>
-                    <div>Montant :</div><div><?= htmlspecialchars($invoice['amount']) ?> €</div>
-                    <div>Adresse :</div><div><?= htmlspecialchars($invoice['billing_address']) ?></div>
-                    <div>Ville :</div><div><?= htmlspecialchars($invoice['billing_city']) ?></div>
-                    <div>Code postal :</div><div><?= htmlspecialchars($invoice['billing_postal_code']) ?></div>
-                    <hr>
-                <?php endforeach; ?>
+                <div class="invoice-cards">
+                    <?php foreach ($invoices as $invoice): ?>
+                        <div class="invoice-card">
+                            <div><span>Date d'achat :</span><?= htmlspecialchars($invoice['transaction_date']) ?></div>
+                            <div><span>Montant :</span><?= htmlspecialchars($invoice['amount']) ?> €</div>
+                            <div><span>Adresse :</span><?= htmlspecialchars($invoice['billing_address']) ?></div>
+                            <div><span>Ville :</span><?= htmlspecialchars($invoice['billing_city']) ?></div>
+                            <div><span>Code postal :</span><?= htmlspecialchars($invoice['billing_postal_code']) ?></div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </section>
+
             </div>
         </body>
 
