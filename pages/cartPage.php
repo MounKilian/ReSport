@@ -6,8 +6,6 @@ require_once '../includes/stockDB.php';
 require_once '../includes/loginDB.php';
 require_once '../includes/authentificationDB.php';
 
-$user = getUserById(getIDOfUser($_SESSION['name']));
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['article_id']) && isset($_POST['action'])) {
         $articleId = $_POST['article_id'];
@@ -64,6 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php
     $cart = GetCart();
     $articlesAlreadyInCart = [];
+
+    if (isset($_SESSION['name'])) {
+        $user = getUserById(getIDOfUser($_SESSION['name']));
+    } else {
+        echo '<h2>Veuillez vous connecter pour voir votre panier.</h2>';
+        echo '<p><a href="./loginPage.php">Se connecter</a></p>';
+        exit;
+    }
 
     if (empty($cart)) {
         echo '<h2>Votre panier est vide.</h2>';

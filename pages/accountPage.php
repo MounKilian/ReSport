@@ -2,6 +2,12 @@
     session_start();
 
     include '../includes/loginDB.php';
+
+    if (!isset($_SESSION['name'])) {
+        header("Location: ./loginPage.php");
+        exit();
+    }
+
     $data = getAll();
 
     $currentUserId = null;
