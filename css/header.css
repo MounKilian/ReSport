@@ -61,3 +61,8 @@ header .cta-button {
 header .cta-button:hover {
     background-color: #019d8e;
 }
+
+a{
+    text-decoration: none;
+    color: inherit;
+}

@@ -11,8 +11,13 @@
     
             switch ($action) {
                 case 'increase':
-                    $quantity = min($_POST['quantity'] + 1, GetStock($articleId));
-                    break;
+                    if (GetStock($articleId) <= 0) {
+                        echo "<script>alert('Stock épuisé pour cet article.');</script>";
+                        return;
+                    } else {
+                        $quantity = $_POST['quantity'] + 1;
+                        break;
+                    }
     
                 case 'decrease':
                     $quantity = max(1, $_POST['quantity'] - 1); 
@@ -29,7 +34,7 @@
             }
     
             if ($action === 'increase' || $action === 'decrease') {
-                if (UpdateCart($articleId, $quantity)) {
+                if (UpdateCart($articleId, $quantity, $action)) {
                     header('Location: ./cartPage.php');
                     exit;
                 } else {

@@ -119,8 +119,8 @@
                 </div>
             </section>
 
-            <section>
-                <h3>Factures :</h3>
+            <section class="featured-products">
+                <h3>Mes factures</h3>
                 <?php foreach ($invoices as $invoice): ?>
                     <div>Date d'achat :</div><div><?= htmlspecialchars($invoice['transaction_date']) ?></div>
                     <div>Montant :</div><div><?= htmlspecialchars($invoice['amount']) ?> €</div>
@@ -152,7 +152,7 @@
         </div>
 
         <section class="featured-products">
-            <h3>Les Articles de <?= htmlspecialchars($userOther['username']) ?></h3>
+            <h3>Les articles de <?= htmlspecialchars($userOther['username']) ?></h3>
             <div class="products-grid">
                 <?php
                     foreach ($articlesOther as $articleOther) {

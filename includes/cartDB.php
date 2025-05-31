@@ -23,6 +23,8 @@
 
             $success = $stmt->execute([$userId, $articleId]);
 
+            RemoveStock($articleId);
+
             if (!$success) {
                 return false;
             }
@@ -87,7 +89,7 @@
         return $result['total'] ?? 0;
     }
 
-    function UpdateCart($articleId, $quantity) {
+    function UpdateCart($articleId, $quantity, $type) {
         $mysqlClient = getPDOConnection();
 
         if (!isset($_SESSION['name'])) {
@@ -100,6 +102,12 @@
             'DELETE FROM Cart WHERE user_id = ? AND article_id = ?'
         );
         $stmt->execute([$userId, $articleId]);
+
+        if ($type == "increase") {
+            RemoveStock($articleId);
+        } else if ($type == "decrease") {
+            AddStock($articleId, 1);
+        }
 
         for ($i = 0; $i < $quantity; $i++) {
             $stmt = $mysqlClient->prepare(
@@ -116,6 +124,8 @@
     }
 
     function RemoveFromCart($articleId) {
+        AddStock($articleId, GetQuantityInCart($articleId));
+
         $mysqlClient = getPDOConnection();
 
         if (!isset($_SESSION['name'])) {

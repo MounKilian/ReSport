@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/header.css">
 </head>
 <body>
-    <?php include 'templates/header.php'; ?>
+    <?php include 'templates/headerIndex.php'; ?>
 
     <section class="hero">
         <h2>Catégorie</h2>
