@@ -1,0 +1,37 @@
+/* admin.css - Styles communs aux pages admin */
+
+table {
+    width: 95%;
+    margin: 2rem auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0.7rem;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+td img {
+    max-height: 60px;
+}
+
+.btn {
+    padding: 0.4rem 0.8rem;
+    text-decoration: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+}
+
+.edit-btn {
+    background-color: #007bff;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}

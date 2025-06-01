@@ -34,13 +34,24 @@
     function GetArticles() {
         $mysqlClient = getPDOConnection();
 
-        $stmt = $mysqlClient->prepare(
-            'SELECT * FROM Article ORDER BY publish_date DESC'
-        );
-        $stmt->execute();
-        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // $stmt = $mysqlClient->prepare(
+        //     'SELECT * FROM Article ORDER BY publish_date DESC'
+        // );
+        // $stmt->execute();
+        // $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $articles;
+        // return $articles;
+        $stmtWithAuthors = $mysqlClient->prepare(
+        'SELECT a.*, u.username AS author_name
+         FROM Article a
+         JOIN user u ON a.author_id = u.id
+         ORDER BY a.publish_date DESC'
+        );
+        $stmtWithAuthors->execute();
+        $articlesWithAuthors = $stmtWithAuthors->fetchAll(PDO::FETCH_ASSOC);
+
+        return $articlesWithAuthors;
+
     }
 
     function GetArticleById($id) {
