@@ -2,10 +2,12 @@
     include_once __DIR__ . '/../includes/loginDB.php';
     $user = getName();
 
+    $userId = null;
+    $userRole = null;
+
     if ($user) {
         $userId = $user['id'];
-    } else {
-        $userId = null;
+        $userRole = $user['role'];
     }
 ?>
 
@@ -21,6 +23,11 @@
             <li><a href="./pages/cartPage.php">Panier</a></li>
             <?php if (isset($_SESSION['name']) && $_SESSION['name'] != '') { ?>
             <li><a href="./pages/accountPage.php?id=<?= htmlspecialchars($userId) ?>">Mon compte</a></li>
+
+                <?php if ($userRole === 'admin') { ?>
+                    <li><a href="./pages/adminPage.php" class="admin-button">Admin</a></li>
+                <?php } ?>
+
                 <li>
                     <form action="/ReSport/index.php" method="get" style="display:inline;">
                         <button type="submit" name="logout" value="1" class="cta-button" style="padding: 0.5rem 1rem; font-size: 1rem;">Déconnexion</button>
