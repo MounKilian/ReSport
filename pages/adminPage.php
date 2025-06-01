@@ -7,7 +7,11 @@
     }
 
     // include '../includes/loginDB.php';
-?>
+    if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
+    <script>
+        alert("L'utilisateur a bien été supprimé.");
+    </script>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="fr">

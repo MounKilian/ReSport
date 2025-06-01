@@ -32,6 +32,9 @@ $users = getAllUsers(); // Fonction à créer dans userDB.php
     <?php include '../templates/header.php'; ?>
 
     <h2 style="text-align:center;">Gestion des Utilisateurs</h2>
+    <?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
+        <p style="color: green; text-align: center;">Utilisateur supprimé avec succès.</p>
+    <?php endif; ?>
 
     <table>
         <thead>

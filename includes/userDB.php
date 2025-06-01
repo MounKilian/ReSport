@@ -24,10 +24,8 @@ function updateUser($id, $data) {
         $pdo = getPDOConnection();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // On prépare la requête de mise à jour
         $stmt = $pdo->prepare("UPDATE user SET username = :username, email = :email, role = :role WHERE id = :id");
 
-        // On exécute avec les données reçues (penser à sécuriser les données en amont si besoin)
         $stmt->execute([
             ':username' => $data['username'],
             ':email' => $data['email'],
@@ -43,15 +41,45 @@ function updateUser($id, $data) {
     }
 }
 
-function deleteUserById($id) {
+function deleteUserAndAssociatedData($userId) {
+    $pdo = getPDOConnection();
+
     try {
-        $pdo = getPDOConnection();
-        $stmt = $pdo->prepare("DELETE FROM user WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-    } catch (PDOException $e) {
-        echo "Erreur : " . $e->getMessage();
+        $pdo->beginTransaction();
+
+        $stmt = $pdo->prepare("SELECT id FROM Article WHERE author_id = ?");
+        $stmt->execute([$userId]);
+        $articles = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        if (!empty($articles)) {
+            $in = implode(',', array_fill(0, count($articles), '?'));
+            $stmt = $pdo->prepare("DELETE FROM Stock WHERE article_id IN ($in)");
+            $stmt->execute($articles);
+        }
+
+        $stmt = $pdo->prepare("DELETE FROM Article WHERE author_id = ?");
+        $stmt->execute([$userId]);
+
+        $stmt = $pdo->prepare("DELETE FROM Cart WHERE user_id = ?");
+        $stmt->execute([$userId]);
+
+        $stmt = $pdo->prepare("DELETE FROM Invoice WHERE user_id = ?");
+        $stmt->execute([$userId]);
+
+        $stmt = $pdo->prepare("DELETE FROM User WHERE id = ?");
+        $stmt->execute([$userId]);
+
+        $pdo->commit();
+        return true;
+
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        error_log("Erreur suppression utilisateur : " . $e->getMessage());
+        return false;
     }
 }
+
+
 
 
 
