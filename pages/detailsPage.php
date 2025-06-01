@@ -67,15 +67,21 @@
                         echo '<p>Vendeur: <a href="accountPage.php?id=' . $article['author_id'] . '">' . $pseudoVendeur . ' (vous)</a></p>';
                     } else {
                         echo '<p>Vendeur: <a href="accountPage.php?id=' . $article['author_id'] . '">' . $pseudoVendeur . '</a></p>';
-                    }
-                    // echo '<p>Vendeur: <a href="accountPage.php">' . GetUsernameWithAuthorId($article['author_id']) . '</a></p>';
-        
+                    }    
+
                     if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
                         echo '<form action="" method="POST">';
                         echo '<input type="hidden" name="article_id" value="' . $article['id'] . '">';
                         echo '<p>Quantité: <input type="number" name="quantity" value="1" min="1"></p>';
 
                         echo '<p>Stock disponible: ' . GetStock($article['id']) . '</p>';
+
+                        if ($currentUserId == $article['author_id']) {
+                            echo '<button type="submit" formaction="./editPage.php?id=' . $article['id'] . '">Modifier l\'article</button>';
+                        } else {
+                            echo '';
+                        }
+                        
 
                         echo '<button type="submit">Ajouter au panier</button>';
                         echo '</form>';

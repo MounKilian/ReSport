@@ -66,4 +66,47 @@
 
         return $user['username'];
     }
+
+    function UpdateArticle($id, $name, $description, $price, $image, $quantity) {
+        $mysqlClient = getPDOConnection();
+
+        $stmt = $mysqlClient->prepare(
+            'UPDATE Article SET name = ?, description = ?, price = ?, image_link = ? WHERE id = ?'
+        );
+        $stmt->execute([$name, $description, $price, $image, $id]);
+
+        $stmt = $mysqlClient->prepare(
+            'SELECT quantity FROM Stock WHERE article_id = ?'
+        );
+        $stmt->execute([$id]);
+        $stock = $stmt->fetch(PDO::FETCH_ASSOC);
+        $currentQuantity = $stock['quantity'];
+        if ($currentQuantity != $quantity) {
+            $stmt = $mysqlClient->prepare(
+                'UPDATE Stock SET quantity = ? WHERE article_id = ?'
+            );
+            $stmt->execute([$quantity, $id]);
+        }
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function DeleteArticle($id) {
+        $mysqlClient = getPDOConnection();
+
+        $stmt = $mysqlClient->prepare(
+            'DELETE FROM Article WHERE id = ?'
+        );
+        $stmt->execute([$id]);
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 ?>

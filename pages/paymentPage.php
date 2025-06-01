@@ -37,12 +37,14 @@
         </form>
 
         <?php
+        require_once '../includes/db.php';
+
         if (isset($_POST['payer']) && isset($_SESSION['name'])) {
             $addAmount = $_POST['addAmount'];
             $currentUsername = $_SESSION['name'];
 
             try {
-                $pdo = new PDO('mysql:host=localhost;dbname=resport;charset=utf8', 'root', '');
+                $pdo = getPDOConnection();
 
                 $sql = "UPDATE user SET balance = balance + :addAmount WHERE username = :currentUsername";
                 $stmt = $pdo->prepare($sql);
