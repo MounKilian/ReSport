@@ -29,7 +29,7 @@
                 <?php } ?>
 
                 <li>
-                    <form action="/ReSport/index.php" method="get" style="display:inline;">
+                    <form action="./index.php" method="get" style="display:inline;">
                         <button type="submit" name="logout" value="1" class="cta-button" style="padding: 0.5rem 1rem; font-size: 1rem;">Déconnexion</button>
                     </form>
                 </li>
