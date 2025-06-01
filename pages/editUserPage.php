@@ -45,7 +45,7 @@ $success = isset($_GET['success']) && $_GET['success'] == 1;
         <div class="body">
             <h2 style="text-align:center;">Mofifier l'utilisateur <?= htmlspecialchars($userForForm ['username'] ?? '') ?></h2>
             
-            <div class="profile-info">
+            <!-- <div class="profile-info"> -->
                 <form method="POST">
                     <div>Nom d'utilisateur :</div>
                     <input type="text" name="username" value="<?= htmlspecialchars($userForForm ['username'] ?? '') ?>">
@@ -62,7 +62,7 @@ $success = isset($_GET['success']) && $_GET['success'] == 1;
 
                     <button type="submit">Enregistrer</button>
                 </form>
-            </div>
+            <!-- </div> -->
         </div>
     </body>
 </html>

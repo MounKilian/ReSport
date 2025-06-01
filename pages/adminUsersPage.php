@@ -17,6 +17,12 @@ if (!$user || $user['role'] !== 'admin') {
 
 $users = getAllUsers(); // Fonction à créer dans userDB.php
 ?>
+<?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
+<script>
+    alert("L'utilisateur a bien été supprimé.");
+</script>
+<?php endif; ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -32,6 +38,13 @@ $users = getAllUsers(); // Fonction à créer dans userDB.php
     <?php include '../templates/header.php'; ?>
 
     <h2 style="text-align:center;">Gestion des Utilisateurs</h2>
+
+    <div class="admin-actions" style="display: flex; gap: 1rem; padding: 1rem;">
+        <a href="./adminArticlesPage.php" class="cta-button" style="padding: 0.5rem 1rem; font-size: 1rem; background-color: #28a745; color: white; border-radius: 5px; text-decoration: none;">
+            Gérer les Articles
+        </a>
+    </div>
+    
     <?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
         <p style="color: green; text-align: center;">Utilisateur supprimé avec succès.</p>
     <?php endif; ?>

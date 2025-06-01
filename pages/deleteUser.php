@@ -24,7 +24,7 @@ $userId = (int) $_GET['id'];
 $success = deleteUserAndAssociatedData($userId); 
 
 if ($success) {
-    header("Location: ./adminPage.php?deleted=1");
+    header("Location: ./adminUsersPage.php?deleted=1");
     exit();
 } else {
     echo "Erreur lors de la suppression de l'utilisateur.";

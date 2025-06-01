@@ -3,7 +3,6 @@ session_start();
 require_once '../includes/loginDB.php';
 require_once '../includes/articleDB.php';
 
-// Redirection si non connecté ou pas admin
 if (!isset($_SESSION['name'])) {
     header("Location: ./loginPage.php");
     exit();
@@ -15,8 +14,15 @@ if (!$user || $user['role'] !== 'admin') {
     exit();
 }
 
-$articles = GetArticles(); // Adapter si ta fonction est différente
+$articles = GetArticles(); 
 ?>
+
+<?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
+<script>
+    alert("L'article a bien été supprimé.");
+</script>
+<?php endif; ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -33,7 +39,11 @@ $articles = GetArticles(); // Adapter si ta fonction est différente
     <?php include '../templates/header.php'; ?>
 
     <h2 style="text-align:center;">Gestion des Articles</h2>
-
+            <div class="admin-actions" style="display: flex; gap: 1rem; padding: 1rem;">
+                <a href="./adminUsersPage.php" class="cta-button" style="padding: 0.5rem 1rem; font-size: 1rem; background-color: #007bff; color: white; border-radius: 5px; text-decoration: none;">
+                    Gérer les Utilisateurs
+                </a>
+            </div>
     <table>
         <thead>
             <tr>
@@ -64,7 +74,7 @@ $articles = GetArticles(); // Adapter si ta fonction est différente
                         <?php endif; ?>
                     </td>
                     <td>
-                        <a class="btn edit-btn" href="./editArticlePage.php?id=<?= $article['id'] ?>">Modifier</a>
+                        <a class="btn edit-btn" href="./editPage.php?id=<?= $article['id'] ?>">Modifier</a>
                         <a class="btn delete-btn" href="./deleteArticle.php?id=<?= $article['id'] ?>" onclick="return confirm('Supprimer cet article ?');">Supprimer</a>
                     </td>
                 </tr>
