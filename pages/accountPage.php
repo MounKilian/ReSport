@@ -1,7 +1,8 @@
 <?php
     session_start();
 
-    include '../includes/loginDB.php';
+    include_once '../includes/loginDB.php';
+    include_once '../includes/authentificationDB.php';
 
     if (!isset($_SESSION['name'])) {
         header("Location: ./loginPage.php");
@@ -52,8 +53,13 @@
 
             <div class="body">
             <h3>Compte</h3>
-            <img src="../images/<?= htmlspecialchars($user['profile_photo']) ?>" alt="Photo de profil" ><br>';
-            
+            <?php
+                if (!empty($user['profile_photo'])) {
+                    echo '<img src="../images/' . htmlspecialchars($user['profile_photo']) . '" alt="Photo de profil" style="width:150px;height:150px;border-radius:50%;object-fit:cover;"><br>';
+                } else {
+                    echo '<p>Aucune photo de profil.</p>';
+                }
+            ?>            
             <div class="profile-info">
                 <div>Nom d'utilisateur :</div>
                 <div><?= htmlspecialchars($user['username']) ?></div>
@@ -68,7 +74,10 @@
                 </div>
             </div>
 
-            <form method="POST" action="">
+            <form method="POST" action="" enctype="multipart/form-data">
+                <label>Photo de profil :</label><br>
+                <input type="file" name="profile_picture" accept="image/*"><br><br>
+
                 <label>Nouvel email :</label><br>
                 <input type="email" name="new_email" placeholder="Laissez vide pour ne pas modifier"><br><br>
 
@@ -76,35 +85,100 @@
                 <input type="password" name="new_password" placeholder="Laissez vide pour ne pas modifier"><br><br>
 
                 <button type="submit" name="modifier">Modifier</button>
+
+                <?php
+
+                if (isset($_POST['modifier']) && isset($_SESSION['name'])) {
+                    $newEmail = trim($_POST['new_email']);
+                    $newPassword = trim($_POST['new_password']);
+                    $currentUsername = trim($_SESSION['name']);
+
+                    $error = null;
+                    $success = null;
+                    $params = [];
+                    $sql = "UPDATE user SET ";
+
+                    if (!empty($newPassword)) {
+                        if (!passwordIsValid($newPassword)) {
+                            $error = "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.";
+                        } else {
+                            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+                            $sql .= "password = :newPassword, ";
+                            $params['newPassword'] = $hashedPassword;
+                        }
+                    }
+
+                    if (!empty($newEmail)) {
+                        $sql .= "email = :newEmail, ";
+                        $params['newEmail'] = $newEmail;
+                    }
+
+                    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+                        $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
+                        $fileName = $_FILES['profile_picture']['name'];
+                        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+                        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+                        if (in_array($fileExtension, $allowedExtensions)) {
+                            $newFileName = uniqid('pp_', true) . '.' . $fileExtension;
+                            $uploadDir = '../images/';
+                            $destPath = $uploadDir . $newFileName;
+
+                            if (move_uploaded_file($fileTmpPath, $destPath)) {
+                                $imageInfo = getimagesize($destPath);
+                                if ($imageInfo === false) {
+                                    unlink($destPath);
+                                    $error = "Le fichier n'est pas une image valide.";
+                                }
+
+                                $sql .= "profile_photo = :profilePicture, ";
+                                $params['profilePicture'] = $newFileName;
+                            } else {
+                                $error = "Erreur lors de l'upload de l'image.";
+                            }
+                        } else {
+                            $error = "Format d'image non autorisé. Seuls JPG, PNG et GIF sont acceptés.";
+                        }
+                    }
+                  
+
+                    if (!$error && !empty($params)) {
+                        $sql = rtrim($sql, ", ");
+                        $sql .= " WHERE username = :currentUsername";
+                        $params['currentUsername'] = $currentUsername;
+
+                        try {
+                            $pdo = getPDOConnection();
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute($params);
+                            $success = "Informations mises à jour avec succès.";
+                            // header("Location: accountPage.php?id=" . $user['id']);
+
+                            // Redirection après modification
+                            // header("Location: accountPage.php?id=" . $$user['id']);
+                            
+                        } catch (PDOException $e) {
+                            $error = "Erreur : " . $e->getMessage();
+                        }
+                    } elseif (!$error) {
+                        $error = "Aucune modification effectuée.";
+                    }
+                    
+                    if ($error) {
+                        echo "<p style='color: red;'>$error</p>";
+                    } elseif ($success) {
+                        echo "<p style='color: green;'>$success</p>";
+                        header("Location: accountPage.php?id=" . $user['id']);
+                        exit();
+                    }
+                    
+                }
+
+                ?>
             </form>
 
             
-            <?php
-
-            if (isset($_POST['modifier']) && isset($_SESSION['name'])) {
-                $newEmail = $_POST['new_email'];
-                $newPassword = $_POST['new_password'];
-                $currentUsername = $_SESSION['name'];
-
-                
-                $pdo = getPDOConnection();
-
-                $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
-                $sql = "UPDATE user SET email = :newEmail, password = :newPassword WHERE username = :currentUsername";
-                $stmt = $pdo->prepare($sql);
-
-                $stmt->execute([
-                    'newEmail' => $newEmail,
-                    'newPassword' => $hashedPassword,
-                    'currentUsername' => $currentUsername
-                ]);
-
-                header("Location: accountPage.php?id=" . $user['id']);
-                exit();
-
-            }
-            ?>
+            
 
             <section class="featured-products">
                 <h3>Mes articles</h3>
@@ -148,7 +222,13 @@
         <?php include '../templates/header.php'; ?>
         <div class="body">
         <h3>Compte</h3>
-        <img src="../images/<?= htmlspecialchars($user['profile_photo']) ?>" alt="Photo de profil" ><br>';
+        <?php
+            if (!empty($userOther['profile_photo'])) {
+                echo '<img src="../images/' . htmlspecialchars($userOther['profile_photo']) . '" alt="Photo de profil" style="width:150px;height:150px;border-radius:50%;object-fit:cover;"><br>';
+            } else {
+                echo '<p>Aucune photo de profil.</p>';
+            }
+        ?>
        
         <div class="profile-info">
                 <div>Nom d'utilisateur :</div>

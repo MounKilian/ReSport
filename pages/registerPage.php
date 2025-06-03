@@ -1,18 +1,6 @@
 <?php
     session_start();
     require_once '../includes/authentificationDB.php';
-    function passwordIsValid($password) {
-        if (
-            strlen($password) < 8 ||
-            !preg_match('/[A-Z]/', $password) ||
-            !preg_match('/[a-z]/', $password) ||
-            !preg_match('/[0-9]/', $password) ||
-            !preg_match('/[\W_]/', $password)
-        ) {
-            return false;
-        }
-        return true;
-    }
 
     $error = null; 
 

@@ -22,16 +22,16 @@
             <input type="text" name="card_name" required><br><br>
 
             <label>Numéro de carte :</label><br>
-            <input type="text" name="card_number" maxlength="16" required><br><br>
+            <input type="text" name="card_number" inputmode="numeric" pattern="[0-9]{16}" maxlength="16" minlength="16" required placeholder="16 chiffres"><br><br>
 
             <label>Date d'expiration :</label><br>
-            <input type="text" name="expiry_date" placeholder="MM/AA" required><br><br>
+            <input type="text" name="expiry_date" inputmode="numeric" pattern="(0[1-9]|1[0-2])\/[0-9]{2}" placeholder="MM/AA" required><br><br>
 
             <label>Cryptogramme (CVV) :</label><br>
-            <input type="text" name="cvv" maxlength="4" required><br><br>
+            <input type="text" name="cvv" inputmode="numeric" pattern="[0-9]{3,4}" maxlength="4" minlength="3" required placeholder="3 ou 4 chiffres"><br><br>
 
             <label>Montant à payer (€) :</label><br>
-            <input type="number" name="addAmount" value="10.00" step="1.00" required><br><br>
+            <input type="number" name="addAmount" value="10.00" min="1" step="1.00" required><br><br>
 
             <button type="submit" name="payer">Payer</button>
         </form>
