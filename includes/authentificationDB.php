@@ -67,4 +67,17 @@
             return false;
         }
     }
+
+    function passwordIsValid($password) {
+        if (
+            strlen($password) < 8 ||
+            !preg_match('/[A-Z]/', $password) ||
+            !preg_match('/[a-z]/', $password) ||
+            !preg_match('/[0-9]/', $password) ||
+            !preg_match('/[\W_]/', $password)
+        ) {
+            return false;
+        }
+        return true;
+    }
 ?>
