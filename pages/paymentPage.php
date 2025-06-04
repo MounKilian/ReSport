@@ -22,13 +22,13 @@
             <input type="text" name="card_name" required><br><br>
 
             <label>Numéro de carte :</label><br>
-            <input type="text" name="card_number" inputmode="numeric" pattern="[0-9]{16}" maxlength="16" minlength="16" required placeholder="16 chiffres"><br><br>
+            <input type="tel" name="card_number" inputmode="numeric" pattern="[0-9]{16}" maxlength="16" required placeholder="16 chiffres" oninput="this.value = this.value.replace(/[^0-9]/g, '')"><br><br>
 
             <label>Date d'expiration :</label><br>
-            <input type="text" name="expiry_date" inputmode="numeric" pattern="(0[1-9]|1[0-2])\/[0-9]{2}" placeholder="MM/AA" required><br><br>
+            <input type="tel" name="expiry_date" inputmode="numeric" pattern="(0[1-9]|1[0-2])\/[0-9]{2}" placeholder="MM/AA" maxlength="5" required oninput="this.value = this.value.replace(/[^0-9\/]/g, '').slice(0, 5)"><br><br>
 
             <label>Cryptogramme (CVV) :</label><br>
-            <input type="text" name="cvv" inputmode="numeric" pattern="[0-9]{3,4}" maxlength="4" minlength="3" required placeholder="3 ou 4 chiffres"><br><br>
+            <input type="tel" name="cvv" inputmode="numeric" pattern="[0-9]{3,4}" maxlength="4" minlength="3" required placeholder="3 ou 4 chiffres" oninput="this.value = this.value.replace(/[^0-9]/g, '')"><br><br>
 
             <label>Montant à payer (€) :</label><br>
             <input type="number" name="addAmount" value="10.00" min="1" step="1.00" required><br><br>
