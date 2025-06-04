@@ -124,11 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     echo '<div class="summary">';
     echo '<p>Total : ' . GetTotalPrice() . ' €</p>';
-    echo '<p>Votre solde : ' . $user["balance"] . ' €</p>';
+    echo '<p>Votre solde : ' . $user['user']['balance'] . ' €</p>';
     echo '</div>';
 
     echo '<form action="./checkoutPage.php" method="POST">';
-    $disabled = ($user["balance"] < GetTotalPrice()) ? 'disabled' : '';
+    $disabled = ($user['user']['balance'] < GetTotalPrice()) ? 'disabled' : '';
     $buttonText = ($disabled) ? 'Passer la commande (Solde insuffisant)' : 'Passer la commande';
     echo '<button type="submit" class="checkout-button" ' . $disabled . '>' . $buttonText . '</button>';
     echo '</form>';
