@@ -44,3 +44,28 @@ CREATE TABLE Invoice (
     billing_postal_code VARCHAR(20) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
+
+INSERT INTO User (username, password, email, balance, profile_photo, role) VALUES
+('jdoe', 'hashed_password1', 'jdoe@example.com', 150.00, 'A4 - 6.png', 'client'),
+('asmith', 'hashed_password2', 'asmith@example.com', 300.00, 'A4 - 6.png', 'client'),
+('quoi', 'hashed_admin_pw', 'admin@sportshop.com', 0.00, 'A4 - 6.png', 'client');
+
+INSERT INTO Article (name, description, price, author_id, image_link) VALUES
+('Ballon de football', 'Ballon taille 5 en cuir synthétique.', 29.99, 3, 'foot.jpg'),
+('Raquette de tennis', 'Raquette légère en graphite.', 89.50, 3, 'tennis.jpg'),
+('Tapis de yoga', 'Tapis antidérapant, 6mm d épaisseur.', 24.00, 3, 'yoga.jpg'),
+('Halteres 10kg', 'Paire d haltères pour musculation.', 45.00, 3, 'halteres.jpg'),
+('Vélo elliptique', 'Appareil cardio avec écran LCD.', 499.99, 3, 'velo.jpg'),
+('Chaussures de running', 'Chaussures respirantes pour course.', 75.00, 3, 'running.jpg');
+
+INSERT INTO Stock (article_id, quantity) VALUES
+(1, 100),
+(2, 50),
+(3, 200),
+(4, 80),
+(5, 20),
+(6, 60);
+
+INSERT INTO Invoice (user_id, amount, billing_address, billing_city, billing_postal_code) VALUES
+(1, 53.99, '12 Rue du Sport', 'Paris', '75001'),
+(2, 120.00, '45 Boulevard Athlétique', 'Lyon', '69000');

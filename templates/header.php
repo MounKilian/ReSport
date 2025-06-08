@@ -20,12 +20,10 @@
     <nav>
         <ul>
            <li><a href="./sellPage.php">Vendre</a></li>
-            <li><a href="#">Produits</a></li>
-            <li><a href="#">Catégories</a></li>
             <li><a href="./cartPage.php">Panier</a></li>
             
             <?php if (isset($_SESSION['name']) && $_SESSION['name'] != '') { ?>
-                <li><a href="./accountPage.php?id=<?= htmlspecialchars($userId) ?>">Mon compte</a></li>
+                <li><a href="./accountPage.php?id=<?= $userId ?>">Mon compte</a></li>
                 
                 <?php if ($userRole === 'admin') { ?>
                     <li><a href="./adminPage.php" class="admin-button">Admin</a></li>
